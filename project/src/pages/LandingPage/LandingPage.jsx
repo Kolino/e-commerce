@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { retrieveFoodData } from "../../services/edamam-api-services";
-import { createFoodDoc, createFoodObjRandomly, getAllFoodsInCollection, getFoodById } from "../../services/firestore-services";
-import ProductList from "../../containers/ProductList/ProductList";
+import { getAllFoodsInCollection } from "../../services/firestore-services";
+import ProductGrid from "../../containers/ProductGrid/ProductGrid";
+import style from "./LandingPage.module.scss";
+import Header from "../../components/Header/Header";
+import ProductCarousel from "../../containers/ProductCarousel/ProductCarousel";
 
 const LandingPage = () => {
   const [foodData, setFoodData] = useState(null);
@@ -14,13 +17,16 @@ const LandingPage = () => {
 
   useEffect(() => {
     getAllFoodsInCollection("foods")
-    .then(foods => setFoodData(foods));
+    .then(foods => setFoodData(foods))
+    .catch(err => console.error(err));
   }, []);
 
   return (
-    <>
-      {foodData ? <ProductList products={foodData}/> : <p>Loading...</p>}
-    </>
+    <main>
+      <Header />
+      {foodData ? <ProductCarousel products={foodData} /> : <p>Loading...</p>}
+      {foodData ? <ProductGrid products={foodData} /> : <p>Loading...</p>}
+    </main>
   );
 };
 
