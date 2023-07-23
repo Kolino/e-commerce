@@ -2,37 +2,48 @@ import { collection, doc, getDoc, getDocs, addDoc, setDoc } from 'firebase/fires
 import { db } from '../config/firebase';
 
 const generateRandomQuantity = (min, max) => {
-  console.log("min max", min, max);
   let num = Math.ceil(Math.random() * max);
   while (num < min)
     num = Math.ceil(Math.random() * max);
-    console.log(min, max, num)
 
   return num;
 }
 
-const generateRandomQuantities = (minQuantity, maxQuantity, minWeight, maxWeight, minPrice, maxPrice) => {
-  console.log(minQuantity, maxQuantity, minWeight, maxWeight, minPrice, maxPrice);
-  // Generating a random quantity
-  const quantity = generateRandomQuantity(minQuantity, maxQuantity);
+const generateWeightsArray = (length) => {
+  const possibleWeights = [0.5, 1, 2, 3, 4, 5];
 
-  // Generating random weights
-  const weights = new Array(quantity)
+  const weights = new Array(length)
+    .fill(0);
+
+  let possibleWeight = -1;
+  for (let i = 0; i < weights.length; i++) {
+    do {
+      possibleWeight = possibleWeights[Math.floor(Math.random() * possibleWeights.length)]
+    } while (weights.includes(possibleWeight));
+
+    weights[i] = possibleWeight;
+  }
+
+  // Sorting the weights here since they don't really correspond to
+  // the generated quantities
+  weights.sort();
+
+  return weights;
+};
+
+export const generateRandomQuantities = (minQuantity, maxQuantity, minPrice, maxPrice) => {
+  const quantities = new Array(4)
     .fill(0)
-    .map(weight => generateRandomQuantity(minWeight, maxWeight));
+    .map(quantity => generateRandomQuantity(minQuantity, maxQuantity));
 
-  // Generating a random price
   const pricePerKilo = generateRandomQuantity(minPrice, maxPrice);
 
-  return [ quantity, weights, pricePerKilo ];
+  const weights = generateWeightsArray(4);
+
+  return [ quantities, pricePerKilo, weights ];
 }
 
 export const createFoodObjFromAPI = foodData => {
-  // Data should only be randomly generated when the database
-  // is being created
-  // TODO: minQuantity, etc. shouldn't be hardcoded
-  const randomQuantities = generateRandomQuantities(0, 10, 250, 1000, 1, 10);
-
   let brand = null;
   if (foodData.brand)
     brand = foodData.brand;
@@ -42,32 +53,15 @@ export const createFoodObjFromAPI = foodData => {
     imageUrl = foodData.image;
 
   return {
-    quantity: randomQuantities[0], 
-    weights: randomQuantities[1],
-    pricePerKilo: randomQuantities[2],
+    quantities: null, 
+    weights: null,
+    pricePerKilo: null,
     brand,
     imageUrl,
     name: foodData.label, 
     favourited: false
   };
 };
-
-export const createFoodObjRandomly = (name, imageUrl) => {
-  // Data should only be randomly generated when the database
-  // is being created
-  // TODO: minQuantity, etc. shouldn't be hardcoded
-  const randomQuantities = generateRandomQuantities(0, 10, 250, 1000, 1, 10);
-
-  return {
-    quantity: randomQuantities[0], 
-    weights: randomQuantities[1],
-    pricePerKilo: randomQuantities[2],
-    brand: null,
-    imageUrl,
-    name, 
-    favourited: false
-  };
-}
 
 export const createFoodDoc = async (foodObj, collectionKey) => {
   try {

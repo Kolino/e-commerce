@@ -4,7 +4,7 @@ import style from "./ProductGrid.module.scss";
 const ProductGrid = ({ products }) => {
   return (
     <section className={style.product_grid}>
-      <ProductList products={products} toDisplay={10} />
+      <ProductList products={products} toDisplay={15} />
     </section>
   )
 };

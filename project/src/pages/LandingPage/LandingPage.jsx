@@ -1,19 +1,16 @@
 import { useEffect, useState } from "react";
-import { retrieveFoodData } from "../../services/edamam-api-services";
 import { getAllFoodsInCollection } from "../../services/firestore-services";
 import ProductGrid from "../../containers/ProductGrid/ProductGrid";
 import style from "./LandingPage.module.scss";
 import Header from "../../components/Header/Header";
 import ProductCarousel from "../../containers/ProductCarousel/ProductCarousel";
+import { randomlyChooseProductsForCarousel } from "../../services/container-services";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const LandingPage = () => {
   const [foodData, setFoodData] = useState(null);
-
-  // createFoodDoc(createFoodObjRandomly("pineapple", null), "foods")
-  //   .then(data => console.log(data));
-
-  // retrieveFoodData("apple")
-  //   .then(data => console.log(data.hints));
+  const [carouselProducts, setCarouselProducts] = useState(null);
 
   useEffect(() => {
     getAllFoodsInCollection("foods")
@@ -21,11 +18,16 @@ const LandingPage = () => {
     .catch(err => console.error(err));
   }, []);
 
+  useEffect(() => {
+    if (foodData)
+      setCarouselProducts(randomlyChooseProductsForCarousel(foodData, 5));
+  }, [foodData]);
+
   return (
-    <main>
+    <main className={style.landing_page}>
       <Header />
-      {foodData ? <ProductCarousel products={foodData} /> : <p>Loading...</p>}
-      {foodData ? <ProductGrid products={foodData} /> : <p>Loading...</p>}
+      {carouselProducts ? <ProductCarousel products={carouselProducts} /> : <FontAwesomeIcon icon={faSpinner} />}
+      {foodData ? <ProductGrid products={foodData} /> : <FontAwesomeIcon icon={faSpinner} />}
     </main>
   );
 };

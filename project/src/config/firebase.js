@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore"
-import { createFoodDoc, createFoodObjRandomly } from "../services/firestore-services";
+import { seedDB } from "../services/seeding-services";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 // Your web app's Firebase configuration
@@ -18,4 +18,29 @@ const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
 
-// seedFoodType('apple', 'apples');
+// Seeding database. This should only be run once to fill db
+// const searchTerms = [
+//   'apple',
+//   'banana',
+//   'milk',
+//   'pear',
+//   'honey',
+//   'steak',
+//   'chicken',
+//   'mushroom',
+//   'nut',
+//   'wine',
+//   'ice cream',
+//   'egg',
+//   'salmon',
+//   'rice',
+//   'potato',
+//   'spinach',
+//   'arugula',
+//   'onion',
+//   'garlic',
+//   'sweet potato',
+//   'beet',
+//   'celery'
+// ];
+// seedDB(searchTerms, 4);

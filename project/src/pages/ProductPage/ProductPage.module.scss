@@ -1,0 +1,30 @@
+.product_page_main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  color: rgb(55, 55, 55);
+
+  &__heading {
+    font-size: 2em;
+  }
+
+  &__img {
+    width: 300px;
+    height: auto;
+
+    margin-bottom: 20px;
+
+    border-radius: 10px;
+  }
+
+  &__error_msg {
+    color: red;
+    font-weight: bold;
+  }
+
+  &__success_msg {
+    color: green;
+    font-weight: bold;
+  }
+}
