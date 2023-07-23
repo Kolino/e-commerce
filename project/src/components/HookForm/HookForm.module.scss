@@ -1,0 +1,28 @@
+.hook_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  color: rgb(55, 55, 55);
+
+  text-align: center;
+
+  &__field {
+    margin-bottom: 5px;
+
+    &__error_msg {
+      color: red;
+      font-weight: bold;
+    }
+
+    &__submit_btn {
+      color: white;
+      background: orange;
+      
+      border: 0px;
+      border-radius: 5px;
+
+      padding: 10px 50px;
+    }
+  }
+}

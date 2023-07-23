@@ -1,0 +1,15 @@
+.header {
+  text-align: center;
+
+  color: rgb(55, 55, 55);
+
+  &__main_heading {
+    font-weight: bold;
+    font-size: 3em;
+  }
+
+  &__subheading {
+    font-style: italic;
+    font-size: 2em;
+  }
+}

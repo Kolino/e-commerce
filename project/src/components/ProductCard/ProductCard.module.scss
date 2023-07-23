@@ -1,0 +1,42 @@
+.product_card {
+  background-color: white;
+
+  border-radius: 10px;
+  
+  width: 250px;
+  height: 250px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+
+  text-align: center;
+
+  padding: 10px;
+  margin: 20px 0;
+
+  &__header {
+    color: rgb(55, 55, 55);
+  }
+
+  &__img {
+    border-radius: 10px;
+
+    width: 125px;
+    height: 125px;
+  }
+
+  &__price {
+    font-weight: 800;
+  }
+
+  &:hover {
+    width: 260px;
+    height: 260px;
+
+    background-color: rgb(220, 220, 220);
+
+    transition-duration: 100ms;
+  }
+}
